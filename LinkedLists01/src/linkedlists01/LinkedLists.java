@@ -8,7 +8,7 @@ public class LinkedLists {
     public static void main(String[] args) {
         LinkList A = new LinkList();//when it sees NEW it calles the Constructor from LinkList class
         //Singly Linked List 01
-        A.insertToHead(5);
+        A.insertToHead(5); //Basic func
         A.insertToHead(3);
         A.insertToHead(10);
         
@@ -18,13 +18,14 @@ public class LinkedLists {
         }*/
             
         //Singly Linked List 02
-        A.insertToTail(35);
-        A.insertToPos(4,150);
-        A.deleteFromHead();
-        A.deleteFromTail();
+        A.insertToTail(35); //Basic func
+        A.insertToPos(4,150); //Basic func
+        A.deleteFromHead(); //Basic func
+        A.deleteFromTail(); //Basic func
           
         //Singly Linked List 03
-        //A.deleteFromPos(2);
+        A.deleteFromPos(2); //Basic func
+        
         //A.printAll(); //extra func
         //A.deleteEven();//extra func
 
