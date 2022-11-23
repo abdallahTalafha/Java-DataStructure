@@ -1,27 +1,30 @@
-package linkedlists01;
 
-public class LinkList {
-   node head;
-   node tail;
-   int count;
+package doublylinkedlists02;
+
+public class DoublyList {
+    node head;
+    node tail;
+    int count;
+    
    
-   
-   public LinkList(){//Constructor //1- no return type //2- the same name of the class
-   head = null; 
-   tail = null;
-   count = 0;
-   }
-   public boolean isEmpty(){
-       if(head == null)
+   //Doubly Linked List 01
+    public DoublyList(){
+        head = null; 
+        tail = null;
+        count = 0;
+    }
+    public boolean isEmpty(){
+        if(head == null)
             return true;
         else
             return false;
    }
-   public void insertToHead(int val){
+    public void insertToHead(int val){
        if(isEmpty()){
            head = new node();
             head.data = val;
             head.next=null;
+            head.previous=null;
             tail = head;
             count++;        
        }
@@ -29,13 +32,12 @@ public class LinkList {
            node nn= new node();
            nn.data= val;
            nn.next=head;
+           nn.previous = null;
+           head.previous = nn;
            head= nn;
            count++;
        }
    }
-
-   
-   //Singly Linked List 02
     public void insertToTail(int val) {
         if(isEmpty()){
             insertToHead(val);
@@ -51,12 +53,12 @@ public class LinkList {
             nn.data = val;
             nn.next= null;
             tail.next =nn;
+            nn.previous =tail;
+            tail.next =nn;
             tail =nn;
             count++;
         }
-        
     }
-
     public void insertToPos(int pos, int val) {
         if(pos<1 || pos > count+1){
             insertToHead(val);
@@ -75,37 +77,35 @@ public class LinkList {
             node nn =new node();
             nn.data =val;
             nn.next = t.next;
+            nn.previous =t;
+            nn.next.previous =nn;
             t.next =nn;
-            count++; 
+            count++;
         }
     }
-    
     public int deleteFromHead(){
         if(!isEmpty()){
             int x = head.data;
             
             if (head==tail) // or count==1
                 head=tail=null;
-            else
+            else{
                 head = head.next;
+                head.previous=null;
+            }
             count--;
             return x ;
         }
         return -1;     
     }
-    
     public int deleteFromTail(){
     if(!isEmpty()){
         int x = tail.data;
         if(tail==head)
             tail=head=null;
         else{
-            node t = head;
-           // for (int i=1;i<count-1;i++)
-           while (t.next != tail)
-                t=t.next;
-           tail = t;
-           t.next = null;
+            tail=tail.previous;
+            tail.next = null;    //Complexity now is O(1) instead of O(n)
         }
         count--;
         return x;
@@ -114,55 +114,56 @@ public class LinkList {
         return -1;
     }
     
-    //Singly Linked List 03
-    public int deleteFromPos(int pos){
-    if(pos<1 || pos > count){
-    
-            return -1;        
-    }
-    else{
-        if(pos == 1)
-             return (deleteFromHead());
-        else if(pos == count)
-             return(deleteFromTail());
+    //Doubly Linked List 02
+    public int deleteFromPosition(int pos){
+        
+        if(pos<1 || pos > count){
+            return -1;
+        }
         else{
-            node t = head;
-            for (int i=1;i<pos-1;i++)
-                t=t.next;
-            int x =t.next.data;
-            t.next = t.next.next;
-            count--;
-            return x;
-        }    
+            if(pos == 1)
+                return (deleteFromHead());
+            else if(pos == count)
+                return(deleteFromTail());
+            else{
+                node t = head;
+                for (int i=1;i<pos-1;i++)
+                    t=t.next;
+                int x =t.next.data;
+                t.next = t.next.next;
+                t.next.previous =t;
+                count--;
+                return x;
+            }
+        }
     }
-   
-   
-   }
-    
-    //To print the whole list
     public void printAll(){
-    
+        
         node t =head;
         while (t!=null){
             System.out.println(t.data);
             t = t.next;
-        }  
-    
+        }
     }
-
+    public void printRevercs(){
+        node t =tail;
+        while (t!=null){
+            System.out.println(t.data);
+            t = t.previous;
+        }
+    }
+    
     public void deleteEven() {
         node t = head;
         int x = 1;
         while(t!=null){
                 if(t.data%2==0)
-                    deleteFromPos(x);
+                    deleteFromPosition(x);
                 else
                     x++;
                 t=t.next;
         }
     }
-    
-    //Singly Linked List 04
     public void repeteAll(){
         int x =1;
         node t =head;
@@ -172,7 +173,6 @@ public class LinkList {
             x+=2;
         }
     }
-    
     public void evenOnTail(){
         node t =head;
         int localCount = count;
@@ -183,22 +183,5 @@ public class LinkList {
         
         }
     
-    }
-
-    public void reverse() {
-        node t1=head;
-        node t2=t1.next;
-        node t3=t2.next;
-        while(t3 != null){
-            t2.next =t1;
-            t1=t2;
-            t2=t3;
-            t3=t3.next;
-        }
-        tail.next = t1;
-        head.next = null;
-        tail = head;
-        head = t2;
-       
     }
 }
